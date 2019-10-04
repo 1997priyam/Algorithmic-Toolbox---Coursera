@@ -41,3 +41,6 @@
 *.cs
 *.scala
 *.rs
+
+#Vscode
+.vscode/*

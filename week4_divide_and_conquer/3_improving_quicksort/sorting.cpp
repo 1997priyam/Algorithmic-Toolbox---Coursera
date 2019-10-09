@@ -18,17 +18,47 @@ int partition2(vector<int> &a, int l, int r) {
   return j;
 }
 
+void partition_3way(vector<int> &a, int low, int high, int &i, int &j) 
+{ 
+    // To handle 2 elements 
+    if (high - low <= 1) 
+    { 
+        if (a[high] < a[low]) 
+            swap(a[high], a[low]); 
+        i = low; 
+        j = high; 
+        return; 
+    } 
+  
+    int mid = low; 
+    int pivot = a[high]; 
+    while (mid <= high) 
+    { 
+        if (a[mid]<pivot) 
+            swap(a[low++], a[mid++]); 
+        else if (a[mid]==pivot) 
+            mid++; 
+        else if (a[mid]>pivot) 
+            swap(a[mid], a[high--]); 
+    } 
+  
+    //update i and j 
+    i = low-1; 
+    j = mid; //or high-1 
+} 
+
 void randomized_quick_sort(vector<int> &a, int l, int r) {
   if (l >= r) {
     return;
   }
 
-  int k = l + rand() % (r - l + 1);
-  swap(a[l], a[k]);
-  int m = partition2(a, l, r);
+  // int k = l + rand() % (r - l + 1);
+  // swap(a[l], a[k]);
+  int i, j;
+  partition_3way(a, l, r, i, j);
 
-  randomized_quick_sort(a, l, m - 1);
-  randomized_quick_sort(a, m + 1, r);
+  randomized_quick_sort(a, l, i);
+  randomized_quick_sort(a, j, r);
 }
 
 int main() {
